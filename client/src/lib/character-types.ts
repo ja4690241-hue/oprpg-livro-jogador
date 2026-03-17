@@ -1,6 +1,6 @@
-// Tipos para Personagens do OPRPG
+// Tipos para Personagens do OPRPG - Baseado no Livro do Jogador v1.5.7
 
-export type Species = 'humano' | 'homem-peixe' | 'mink' | 'celestial' | 'gigante' | 'anao' | 'lunariano' | 'mestico';
+export type Species = 'humano' | 'homem-peixe' | 'sireno' | 'mink' | 'celestial' | 'gigante' | 'anao' | 'lunariano' | 'mestico';
 export type CombatStyle = 'lutador' | 'espadachim' | 'atirador' | 'ninja' | 'ciborgue' | 'guerrilheiro' | 'okama-kenpo' | 'rokushiki' | 'guerreiro-oni' | 'carateca-homem-peixe';
 export type Profession = 'cozinheiro' | 'medico' | 'navegador' | 'timoneiro' | 'carpinteiro' | 'engenheiro' | 'musico' | 'arqueólogo' | 'adestrador' | 'combatente' | 'cacador-recompensas';
 export type HakiType = 'observacao' | 'armamento' | 'rei';
@@ -41,7 +41,7 @@ export interface HakiAbility {
   type: HakiType;
   level: 'inexperiente' | 'treinado' | 'perito';
   ambitionPoints: number;
-  talents: string[]; // IDs dos talentos de Haki
+  talents: string[];
 }
 
 export interface Item {
@@ -53,95 +53,85 @@ export interface Item {
 }
 
 export interface Weapon extends Item {
-  damageDice: string; // ex: "1d8"
+  damageDice: string;
   attribute: keyof Attributes;
   bonus?: number;
+  properties?: string[];
 }
 
 export interface AkumaNoMi {
   type: AkumaType;
   name: string;
   description: string;
-  techniques: string[]; // IDs das técnicas
+  techniques: string[];
   powerPoints: number;
   maxPowerPoints: number;
 }
 
 export interface Character {
-  // Informações Básicas
   id: string;
   name: string;
   level: number;
   experiencePoints: number;
-  
-  // Aparência e Personalidade
   species: Species;
   appearance: string;
   personality: string;
   dream: string;
   philosophy: string;
-  
-  // Classe e Profissão
   combatStyle: CombatStyle;
   profession?: Profession;
   background: string;
-  
-  // Atributos
   attributes: Attributes;
-  
-  // Perícias
   skills: Skills;
-  proficiencies: string[]; // IDs de perícias com proficiência
-  
-  // Saúde
+  proficiencies: string[];
   maxHealth: number;
   currentHealth: number;
   maxPowerPoints: number;
   currentPowerPoints: number;
-  exhaustionLevel: number; // 0-6
-  
-  // Combate
+  exhaustionLevel: number;
   armorClass: number;
   proficiencyBonus: number;
-  
-  // Haki
   haki: HakiAbility[];
   ambitionPoints: number;
   maxAmbitionPoints: number;
-  
-  // Akuma no Mi
   akumaNoMi?: AkumaNoMi;
-  
-  // Equipamento
   weapons: Weapon[];
-  armor?: Item;
   items: Item[];
   bellys: number;
-  
-  // Treinamentos e Maestrias
-  trainings: string[]; // IDs dos treinamentos
-  masteries: string[]; // IDs das maestrias
-  
-  // Recompensa
+  trainings: string[];
+  masteries: string[];
   bounty: number;
-  
-  // Tripulação
-  crewName?: string;
-  crewRole?: string;
-  
-  // Metadata
   createdAt: Date;
   updatedAt: Date;
 }
 
-export interface CharacterSheet extends Character {
-  // Cálculos derivados
-  attributeModifiers: Attributes;
-  skillBonuses: Skills;
-  savingThrows: Attributes;
-}
+// Dados de Espécies do Livro v1.5.7
+export const SPECIES_DATA: Record<Species, { pvBase: number; attributes: string; description: string }> = {
+  humano: { pvBase: 10, attributes: '+1 em dois ou +2 em um', description: 'Versátil e adaptável' },
+  'homem-peixe': { pvBase: 14, attributes: '+1 em dois ou +2 em um', description: 'Forte e adaptado ao mar' },
+  sireno: { pvBase: 14, attributes: '+1 em dois ou +2 em um', description: 'Natação superior' },
+  mink: { pvBase: 12, attributes: '+1 em dois ou +2 em um', description: 'Instintos animais e Electro' },
+  celestial: { pvBase: 10, attributes: '+1 em dois ou +2 em um', description: 'Habitante do céu com Dials' },
+  gigante: { pvBase: 20, attributes: '+1 em dois ou +2 em um', description: 'Colossal e honrado' },
+  anao: { pvBase: 8, attributes: '+1 em dois ou +2 em um', description: 'Pequeno, forte e ingênuo' },
+  lunariano: { pvBase: 16, attributes: '+1 em dois ou +2 em um', description: 'Raro, manipula fogo' },
+  mestico: { pvBase: 0, attributes: '+1 em dois ou +2 em um', description: 'Mistura de duas espécies' },
+};
 
-// Funções auxiliares
+// Dados de Estilos de Combate do Livro v1.5.7
+export const COMBAT_STYLE_DATA: Record<CombatStyle, { die: number; primary: string[] }> = {
+  lutador: { die: 12, primary: ['forca'] },
+  espadachim: { die: 10, primary: ['forca', 'destreza'] },
+  atirador: { die: 8, primary: ['destreza'] },
+  ninja: { die: 8, primary: ['destreza'] },
+  ciborgue: { die: 12, primary: ['forca', 'sabedoria'] },
+  guerrilheiro: { die: 10, primary: ['forca', 'sabedoria'] },
+  'okama-kenpo': { die: 10, primary: ['forca', 'presenca'] },
+  rokushiki: { die: 10, primary: ['forca', 'destreza'] },
+  'guerreiro-oni': { die: 12, primary: ['forca'] },
+  'carateca-homem-peixe': { die: 12, primary: ['forca'] },
+};
+
 export function calculateModifier(attributeValue: number): number {
   return Math.floor((attributeValue - 10) / 2);
 }
@@ -155,6 +145,32 @@ export function calculateAttributeModifiers(attributes: Attributes): Attributes 
     vontade: calculateModifier(attributes.vontade),
     presenca: calculateModifier(attributes.presenca),
   };
+}
+
+export function calculateMaxHealth(character: Character): number {
+  const speciesPV = SPECIES_DATA[character.species]?.pvBase || 10;
+  const styleDie = COMBAT_STYLE_DATA[character.combatStyle]?.die || 10;
+  const conMod = calculateModifier(character.attributes.constituicao);
+  
+  // No 1º nível: PV Base da Espécie + Valor Máximo do Dado do Estilo + Mod. Constituição
+  let total = speciesPV + styleDie + conMod;
+  
+  // Para níveis seguintes (simplificado como média do dado + conMod)
+  if (character.level > 1) {
+    const averageDie = (styleDie / 2) + 0.5;
+    total += Math.floor((character.level - 1) * (averageDie + conMod));
+  }
+  
+  return total;
+}
+
+export function calculateMaxPowerPoints(level: number): number {
+  // PP = 2 * Nível (conforme tabela de PP por nível)
+  return level * 2;
+}
+
+export function calculateProficiencyBonus(level: number): number {
+  return Math.floor((level - 1) / 4) + 2;
 }
 
 export function createEmptyCharacter(): Character {
@@ -200,10 +216,10 @@ export function createEmptyCharacter(): Character {
       sobrenatural: 0,
     },
     proficiencies: [],
-    maxHealth: 10,
-    currentHealth: 10,
-    maxPowerPoints: 5,
-    currentPowerPoints: 5,
+    maxHealth: 22, // 10 (humano) + 12 (lutador) + 0 (con)
+    currentHealth: 22,
+    maxPowerPoints: 2,
+    currentPowerPoints: 2,
     exhaustionLevel: 0,
     armorClass: 10,
     proficiencyBonus: 2,
