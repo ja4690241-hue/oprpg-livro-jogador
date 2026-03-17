@@ -106,6 +106,19 @@ export default function Sidebar({ activeChapterId, activeSectionId, onNavigate, 
               <span className="font-['Cinzel'] text-xs tracking-wide">Início</span>
             </button>
 
+            {/* Campaign link */}
+            <button
+              onClick={() => onNavigate('campaign')}
+              className={`w-full text-left px-4 py-2.5 text-sm transition-all duration-150 flex items-center gap-2
+                ${activeChapterId === 'campaign'
+                  ? 'bg-[oklch(0.18_0.06_240)] border-l-2 border-[oklch(0.55_0.22_25)] text-[oklch(0.92_0.01_240)]'
+                  : 'text-[oklch(0.65_0.02_240)] hover:text-[oklch(0.88_0.01_240)] hover:bg-[oklch(0.14_0.04_240)]'
+                }`}
+            >
+              <span className="text-base">📜</span>
+              <span className="font-['Cinzel'] text-xs tracking-wide">Campanha</span>
+            </button>
+
             <div className="px-4 py-2">
               <div className="text-xs font-['Cinzel'] text-[oklch(0.40_0.02_240)] uppercase tracking-widest">
                 Capítulos

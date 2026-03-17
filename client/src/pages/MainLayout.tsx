@@ -3,6 +3,7 @@ import Sidebar from "@/components/Sidebar";
 import SearchBar from "@/components/SearchBar";
 import ContentRenderer from "@/components/ContentRenderer";
 import HomePage from "@/pages/Home";
+import CampaignPage from "@/pages/Campaign";
 import { chapters, getChapterById } from "@/lib/oprpg-data";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -115,6 +116,8 @@ export default function MainLayout() {
         >
           {activeChapterId === 'home' ? (
             <HomePage onNavigate={navigate} />
+          ) : activeChapterId === 'campaign' ? (
+            <CampaignPage />
           ) : activeChapter ? (
             <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
               {/* Chapter header */}

@@ -96,3 +96,31 @@ export const characters = mysqlTable("characters", {
 
 export type CharacterDB = typeof characters.$inferSelect;
 export type InsertCharacter = typeof characters.$inferInsert;
+// Campaign Logs & Quests
+export const quests = mysqlTable("quests", {
+  id: varchar("id", { length: 64 }).primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  status: mysqlEnum("status", ["ativa", "concluida", "fracassada"]).default("ativa").notNull(),
+  rewardXp: int("rewardXp").default(0),
+  rewardBellys: int("rewardBellys").default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export const sessionLogs = mysqlTable("session_logs", {
+  id: varchar("id", { length: 64 }).primaryKey(),
+  sessionNumber: int("sessionNumber").notNull(),
+  title: varchar("title", { length: 255 }),
+  content: text("content").notNull(),
+  islandName: varchar("islandName", { length: 255 }),
+  datePlayed: timestamp("datePlayed").defaultNow(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export const islands = mysqlTable("islands", {
+  id: varchar("id", { length: 64 }).primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  description: text("description"),
+  isDiscovered: int("isDiscovered").default(0), // 0 or 1
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
