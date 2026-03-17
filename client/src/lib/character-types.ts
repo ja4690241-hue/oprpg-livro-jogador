@@ -44,6 +44,20 @@ export interface HakiAbility {
   talents: string[]; // IDs dos talentos de Haki
 }
 
+export interface Item {
+  name: string;
+  weight: number;
+  rarity: 'comum' | 'incomum' | 'raro' | 'epico' | 'lendario';
+  description?: string;
+  isEquipped?: boolean;
+}
+
+export interface Weapon extends Item {
+  damageDice: string; // ex: "1d8"
+  attribute: keyof Attributes;
+  bonus?: number;
+}
+
 export interface AkumaNoMi {
   type: AkumaType;
   name: string;
@@ -99,9 +113,9 @@ export interface Character {
   akumaNoMi?: AkumaNoMi;
   
   // Equipamento
-  weapons: string[];
-  armor?: string;
-  items: string[];
+  weapons: Weapon[];
+  armor?: Item;
+  items: Item[];
   bellys: number;
   
   // Treinamentos e Maestrias
