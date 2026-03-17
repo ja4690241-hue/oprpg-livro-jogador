@@ -278,20 +278,29 @@ export default function CharacterCreator() {
             onClick={prevStep}
             disabled={step === 'species'}
             variant="outline"
-            className="gap-2"
+            className="gap-2 border-[oklch(0.20_0.05_240)]"
           >
             <ChevronLeft className="w-4 h-4" />
             Voltar
           </Button>
 
           <div className="flex gap-2">
-            {step === 'review' && (
-              <Button className="gap-2 bg-[oklch(0.55_0.22_25)] hover:bg-[oklch(0.65_0.25_25)]">
-                <Download className="w-4 h-4" />
-                Baixar Ficha PDF
-              </Button>
-            )}
-            {step !== 'review' && (
+            {step === 'review' ? (
+              <>
+                <Button variant="outline" className="gap-2 border-[oklch(0.20_0.05_240)]">
+                  <Download className="w-4 h-4" />
+                  PDF
+                </Button>
+                <Button 
+                  onClick={handleSave}
+                  disabled={createMutation.isPending}
+                  className="gap-2 bg-[oklch(0.55_0.22_25)] hover:bg-[oklch(0.65_0.25_25)]"
+                >
+                  <Save className="w-4 h-4" />
+                  Finalizar Pirata
+                </Button>
+              </>
+            ) : (
               <Button
                 onClick={nextStep}
                 className="gap-2 bg-[oklch(0.55_0.22_25)] hover:bg-[oklch(0.65_0.25_25)]"
