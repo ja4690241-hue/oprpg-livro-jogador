@@ -6,7 +6,7 @@ import { TRPCError } from "@trpc/server";
 // Validação de personagem
 const characterInputSchema = z.object({
   name: z.string().min(1).max(255),
-  species: z.enum(["humano", "homem-peixe", "mink", "celestial", "gigante", "anao", "lunariano", "mestico"]),
+  species: z.enum(["humano", "homem-peixe", "sireno", "mink", "celestial", "gigante", "anao", "lunariano", "mestico"]),
   combatStyle: z.enum(["lutador", "espadachim", "atirador", "ninja", "ciborgue", "guerrilheiro", "okama-kenpo", "rokushiki", "guerreiro-oni", "carateca-homem-peixe"]),
   profession: z.enum(["cozinheiro", "medico", "navegador", "timoneiro", "carpinteiro", "engenheiro", "musico", "arqueólogo", "adestrador", "combatente", "cacador-recompensas"]).optional(),
   appearance: z.string().optional(),
@@ -110,7 +110,28 @@ export const charactersRouter = router({
   update: protectedProcedure
     .input(z.object({
       id: z.string(),
-      data: characterInputSchema.partial(),
+      name: z.string().optional(),
+      species: z.enum(["humano", "homem-peixe", "sireno", "mink", "celestial", "gigante", "anao", "lunariano", "mestico"]).optional(),
+      combatStyle: z.enum(["lutador", "espadachim", "atirador", "ninja", "ciborgue", "guerrilheiro", "okama-kenpo", "rokushiki", "guerreiro-oni", "carateca-homem-peixe"]).optional(),
+      level: z.number().optional(),
+      experiencePoints: z.number().optional(),
+      attributes: z.object({
+        forca: z.number(),
+        destreza: z.number(),
+        constituicao: z.number(),
+        sabedoria: z.number(),
+        vontade: z.number(),
+        presenca: z.number(),
+      }).optional(),
+      currentHealth: z.number().optional(),
+      maxHealth: z.number().optional(),
+      currentPowerPoints: z.number().optional(),
+      maxPowerPoints: z.number().optional(),
+      bounty: z.number().optional(),
+      dream: z.string().optional(),
+      personality: z.string().optional(),
+      appearance: z.string().optional(),
+      philosophy: z.string().optional(),
     }))
     .mutation(async ({ ctx, input }) => {
       try {
@@ -119,14 +140,14 @@ export const charactersRouter = router({
           throw new TRPCError({ code: "NOT_FOUND", message: "Character not found" });
         }
 
-        const updateData: any = { ...input.data };
-        if (input.data.bellys !== undefined) {
-          updateData.bellys = input.data.bellys.toString();
+        const { id, ...updateData } = input;
+        const formattedData: any = { ...updateData };
+        
+        if (updateData.bounty !== undefined) {
+          formattedData.bounty = updateData.bounty.toString();
         }
-        if (input.data.bounty !== undefined) {
-          updateData.bounty = input.data.bounty.toString();
-        }
-        return await updateCharacter(input.id, updateData);
+
+        return await updateCharacter(id, formattedData);
       } catch (error) {
         if (error instanceof TRPCError) throw error;
         console.error("Error updating character:", error);

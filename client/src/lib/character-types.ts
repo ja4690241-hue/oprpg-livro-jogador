@@ -1,6 +1,6 @@
 // Tipos para Personagens do OPRPG - Baseado no Livro do Jogador v1.5.7
 
-export type Species = 'humano' | 'homem-peixe' | 'sireno' | 'mink' | 'celestial' | 'gigante' | 'anao' | 'lunariano' | 'mestico';
+export type Species = 'humano' | 'homem-peixe' | 'sereia' | 'mink' | 'celestial' | 'gigante' | 'anao' | 'lunariano' | 'mestico';
 export type CombatStyle = 'lutador' | 'espadachim' | 'atirador' | 'ninja' | 'ciborgue' | 'guerrilheiro' | 'okama-kenpo' | 'rokushiki' | 'guerreiro-oni' | 'carateca-homem-peixe';
 export type Profession = 'cozinheiro' | 'medico' | 'navegador' | 'timoneiro' | 'carpinteiro' | 'engenheiro' | 'musico' | 'arqueólogo' | 'adestrador' | 'combatente' | 'cacador-recompensas';
 export type HakiType = 'observacao' | 'armamento' | 'rei';
@@ -105,20 +105,20 @@ export interface Character {
   updatedAt: Date;
 }
 
-// Dados de Espécies do Livro v1.5.7
+// Dados de Espécies do Livro v1.5.7 (Corrigido conforme PDF)
 export const SPECIES_DATA: Record<Species, { pvBase: number; attributes: string; description: string }> = {
   humano: { pvBase: 10, attributes: '+1 em dois ou +2 em um', description: 'Versátil e adaptável' },
-  'homem-peixe': { pvBase: 14, attributes: '+1 em dois ou +2 em um', description: 'Forte e adaptado ao mar' },
-  sireno: { pvBase: 14, attributes: '+1 em dois ou +2 em um', description: 'Natação superior' },
-  mink: { pvBase: 12, attributes: '+1 em dois ou +2 em um', description: 'Instintos animais e Electro' },
+  'homem-peixe': { pvBase: 12, attributes: '+2 em Força e +1 em Constituição', description: 'Forte e adaptado ao mar' },
+  sereia: { pvBase: 8, attributes: '+2 em Presença e +1 em Sabedoria', description: 'Natação superior' },
+  mink: { pvBase: 10, attributes: '+1 em dois ou +2 em um', description: 'Instintos animais e Electro' },
   celestial: { pvBase: 10, attributes: '+1 em dois ou +2 em um', description: 'Habitante do céu com Dials' },
-  gigante: { pvBase: 20, attributes: '+1 em dois ou +2 em um', description: 'Colossal e honrado' },
+  gigante: { pvBase: 20, attributes: '+2 Força e +1 Const. ou +2 Const. e +1 Força', description: 'Colossal e honrado' },
   anao: { pvBase: 8, attributes: '+1 em dois ou +2 em um', description: 'Pequeno, forte e ingênuo' },
-  lunariano: { pvBase: 16, attributes: '+1 em dois ou +2 em um', description: 'Raro, manipula fogo' },
-  mestico: { pvBase: 0, attributes: '+1 em dois ou +2 em um', description: 'Mistura de duas espécies' },
+  lunariano: { pvBase: 14, attributes: '+2 Const. e +1 Força ou +2 Força e +1 Const.', description: 'Raro, manipula fogo' },
+  mestico: { pvBase: 0, attributes: 'Média das espécies', description: 'Mistura de duas espécies' },
 };
 
-// Dados de Estilos de Combate do Livro v1.5.7
+// Dados de Estilos de Combate do Livro v1.5.7 (Corrigido conforme PDF)
 export const COMBAT_STYLE_DATA: Record<CombatStyle, { die: number; primary: string[] }> = {
   lutador: { die: 12, primary: ['forca'] },
   espadachim: { die: 10, primary: ['forca', 'destreza'] },
@@ -165,7 +165,7 @@ export function calculateMaxHealth(character: Character): number {
 }
 
 export function calculateMaxPowerPoints(level: number): number {
-  // PP = 2 * Nível (conforme tabela de PP por nível)
+  // PP = 2 * Nível (conforme tabela de PP por nível v1.5.7)
   return level * 2;
 }
 

@@ -14,7 +14,7 @@ import { ChevronLeft, ChevronRight, Save } from 'lucide-react';
 const SPECIES_LIST: { value: Species; label: string; icon: string; description: string }[] = [
   { value: 'humano', label: 'Humano', icon: '👤', description: SPECIES_DATA['humano'].description },
   { value: 'homem-peixe', label: 'Homem-Peixe', icon: '🐠', description: SPECIES_DATA['homem-peixe'].description },
-  { value: 'sireno', label: 'Sireno', icon: '🧜‍♂️', description: SPECIES_DATA['sireno'].description },
+  { value: 'sereia', label: 'Sereia', icon: '🧜‍♀️', description: SPECIES_DATA['sereia'].description },
   { value: 'mink', label: 'Mink', icon: '🐱', description: SPECIES_DATA['mink'].description },
   { value: 'celestial', label: 'Celestial', icon: '☁️', description: SPECIES_DATA['celestial'].description },
   { value: 'gigante', label: 'Gigante', icon: '🗻', description: SPECIES_DATA['gigante'].description },
@@ -111,7 +111,7 @@ export default function CharacterCreator() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="font-['Cinzel_Decorative'] text-3xl font-bold mb-2">Criador de Pirata</h1>
-          <p className="text-[oklch(0.55_0.02_240)]">OP RPG - Livro do Jogador v1.5.7</p>
+          <p className="text-[oklch(0.55_0.22_25)]">OP RPG - Livro do Jogador v1.5.7</p>
         </div>
 
         {/* Progress */}
