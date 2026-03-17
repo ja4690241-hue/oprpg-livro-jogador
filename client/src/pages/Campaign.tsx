@@ -14,9 +14,11 @@ import {
   CheckCircle2, 
   XCircle, 
   Clock,
-  BookOpen
+  BookOpen,
+  Sword
 } from 'lucide-react';
 import { toast } from 'sonner';
+import BattleTracker from '@/components/BattleTracker';
 
 export default function Campaign() {
   const [activeTab, setActiveTab] = useState('quests');
@@ -60,6 +62,7 @@ export default function Campaign() {
           <TabsList className="w-full bg-[oklch(0.12_0.04_240)] border border-white/5 h-12 mb-8">
             <TabsTrigger value="quests" className="flex-1 gap-2"><Star className="w-4 h-4" /> Missões Ativas</TabsTrigger>
             <TabsTrigger value="journal" className="flex-1 gap-2"><Scroll className="w-4 h-4" /> Relatos de Sessão</TabsTrigger>
+            <TabsTrigger value="battle" className="flex-1 gap-2"><Sword className="w-4 h-4" /> Campo de Batalha</TabsTrigger>
           </TabsList>
 
           <TabsContent value="quests" className="space-y-4">
@@ -162,6 +165,10 @@ export default function Campaign() {
               ))}
               {logs?.length === 0 && <p className="text-center py-12 text-white/20 italic">O diário está em branco...</p>}
             </div>
+          </TabsContent>
+
+          <TabsContent value="battle" className="mt-8 animate-in fade-in duration-500">
+            <BattleTracker />
           </TabsContent>
         </Tabs>
       </div>
