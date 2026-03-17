@@ -1,9 +1,9 @@
 {
   "version": 2,
   "buildCommand": "pnpm build",
-  "devCommand": "pnpm dev",
   "installCommand": "pnpm install",
-  "framework": "vite",
+  "framework": null,
+  "outputDirectory": "dist",
   "env": {
     "DATABASE_URL": "@database_url",
     "JWT_SECRET": "@jwt_secret",
@@ -21,11 +21,9 @@
     "VITE_APP_TITLE": "@vite_app_title",
     "VITE_APP_LOGO": "@vite_app_logo"
   },
-  "outputDirectory": "dist",
-  "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "/api/:path*"
+  "functions": {
+    "api/**/*.ts": {
+      "runtime": "nodejs18.x"
     }
-  ]
+  }
 }
