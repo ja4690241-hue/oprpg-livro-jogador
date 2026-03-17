@@ -21,7 +21,6 @@
     "VITE_APP_TITLE": "@vite_app_title",
     "VITE_APP_LOGO": "@vite_app_logo"
   },
-  "buildOutputDirectory": "dist",
   "outputDirectory": "dist",
   "rewrites": [
     {
